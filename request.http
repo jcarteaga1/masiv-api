@@ -1,0 +1,9 @@
+
+GET http://localhost:3000/roulettes
+
+###
+
+GET http://localhost:3000/roulettes/open/2399d8c3-bd31-48d7-965a-af4d7fd8e01f
+
+###
+POST http://localhost:3000/roulettes/new
