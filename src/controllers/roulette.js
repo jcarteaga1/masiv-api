@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const { RouletteModel } = require('../models/roulette');
-const { redisGetAll } = require('../config/db');
 
 const createRoulettes = async (req, res) => {
   try {
@@ -23,7 +22,7 @@ const createRoulettes = async (req, res) => {
 
 const getRoulettes = async (req, res) => {
   try {
-    const roulettes = await redisGetAll();
+    const roulettes = await RouletteModel.findAll('roulette');
 
     res.status(200).json(roulettes);
   } catch (error) {

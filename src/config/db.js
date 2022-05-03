@@ -10,17 +10,20 @@ const redisGet = async function (key) {
   return JSON.parse(reply);
 };
 
-const redisGetAll = async function () {
+const redisGetAll = async function (type) {
   const repliesKeys = await redisClient.keys('*');
   const repliesValues = await Promise.all(
-    repliesKeys.map(async (reply) => await redisGet(reply)),
+    repliesKeys.map(
+      async (reply) => reply.includes(type) && (await redisGet(reply)),
+    ),
   );
+  const getOnlyTypeValues = repliesValues.filter((value) => value !== false);
 
-  return repliesValues;
+  return getOnlyTypeValues;
 };
 
-const redisSet = async function (key, value) {
-  const reply = await redisClient.set(key, JSON.stringify(value));
+const redisSet = async function (key, value, type) {
+  const reply = await redisClient.set(`${type}-${key}`, JSON.stringify(value));
 
   return reply;
 };
