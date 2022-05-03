@@ -35,16 +35,14 @@ Academic purpose
 > npm run dev
 ```
 
-## Create .env file
+# Create .env file
 
 env:
 
-# This is parameters required.
+## This is parameters required.
 
 PORT=
 JWT_KET=
-
-```
 
 ## Authenticacion
 
