@@ -36,7 +36,7 @@ const UserModel = {
     const allUsers = await redisGetAll('user');
     const findUser = allUsers.find((user) => user.username === username);
     if (!findUser) throw new Error('user does not exist');
-    if (bcrypt.compareSync(password, findUser.password)) {
+    if (!bcrypt.compareSync(password, findUser.password)) {
       throw new Error('Incorrect password');
     }
     const accessToken = generateAccessToken(findUser.id);

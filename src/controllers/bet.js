@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const { BetModel } = require('../models/bet');
+const { RouletteModel } = require('../models/roulette');
 
 const createBet = async (req, res) => {
   try {
@@ -11,8 +12,8 @@ const createBet = async (req, res) => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
-    const reply = await BetModel.create(body);
+    const isOpen = await RouletteModel.isOpen(`roulette-${body.rouletteId}`);
+    const reply = await BetModel.create(body, isOpen);
     if (!reply) {
       res.status(500).send({ message: 'Error to create bet' });
     }

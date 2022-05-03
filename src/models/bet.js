@@ -1,9 +1,9 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-return-await */
 /* eslint-disable newline-per-chained-call */
 const Joi = require('joi');
 const { redisSet, redisGetAll } = require('../config/db');
-const { RouletteModel } = require('./roulette');
 const { UserModel } = require('./user');
 
 const BetSchema = Joi.object({
@@ -29,10 +29,9 @@ const BetSchema = Joi.object({
 });
 
 const BetModel = {
-  create: async (body) => {
+  create: async (body, isOpen) => {
     const { value, error } = BetSchema.validate(body);
     if (error) throw error;
-    const isOpen = await RouletteModel.isOpen(`roulette-${value.rouletteId}`);
     if (!isOpen) throw new Error('the roulette is closed');
     const hasCredits = await UserModel.verifyCredits(
       `user-${value.userId}`,
@@ -48,7 +47,7 @@ const BetModel = {
     const allBets = await redisGetAll('bet');
     if (!allBets) throw new Error('no bets');
     const betsByRoulette = allBets.filter(
-      (bet) => bet.rouletteId === rouletteId,
+      (bet) => bet.rouletteId === rouletteId && bet.active === true,
     );
     if (!betsByRoulette) throw new Error('no bets');
 
@@ -73,6 +72,12 @@ const BetModel = {
           1,
         ),
     );
+  },
+  disableBets: async (bets) => {
+    bets.forEach(async (bet) => {
+      bet.active = false;
+      await redisSet(bet.id, bet, 'bet');
+    });
   },
 };
 

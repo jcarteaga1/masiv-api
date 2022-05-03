@@ -62,6 +62,7 @@ const RouletteModel = {
     const winNumber = getWinningNumber();
     const winColor = getWinningColor(winNumber);
     await BetModel.verifyWinners(bets, winNumber, winColor);
+    await BetModel.disableBets(bets);
 
     return { roulette, winNumber };
   },
