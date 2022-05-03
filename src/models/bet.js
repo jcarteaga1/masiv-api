@@ -21,6 +21,7 @@ const BetSchema = Joi.object({
       version: ['uuidv4', 'uuidv5'],
     })
     .required(),
+  active: Joi.boolean(),
   createdAt: Joi.date(),
   updatedAt: Joi.date(),
 });

@@ -7,6 +7,7 @@ const createBet = async (req, res) => {
       id: crypto.randomUUID(),
       ...req.body,
       userId: String(req.user),
+      active: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
