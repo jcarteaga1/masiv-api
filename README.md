@@ -1,9 +1,5 @@
 # API Rest :: Masiv
 
-```
-Academic purpose
-```
-
 ## Prerequisites
 
 - [Node](https://nodejs.org/)
@@ -70,10 +66,23 @@ authorization: ""
    <td><strong>POST</strong>
   </tr>
   <tr>
-   <td>/
+   <td>/users/singup
    </td>
-   <td>error </td>
-   <td>error
+   <td>-</td>
+   <td>
+   <p>
+   body:
+   <p>
+   <code>{</code>
+   <p>
+   <code>username,</code>
+   <p>
+   <code>password,</code>
+   <p>
+   <code>credits,</code>
+   <p>
+   <code>}</code>
+   <p>
    </td>
   </tr>
 </table>
