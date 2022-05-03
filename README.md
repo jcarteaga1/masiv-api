@@ -104,5 +104,35 @@ authorization: ""
    <p>
    </td>
   </tr>
+
+  <tr>
+   <td>/roulettes/
+   </td>
+   <td> List all roulettes </td>
+   <td>-</td>
+  </tr>
+
+  <tr>
+   <td>/roulettes/open/:id
+   </td>
+   <td> open roulette </td>
+   <td>-</td>
+  </tr>
+
+  <tr>
+   <td>/roulettes/new
+   </td>
+   <td>-</td>
+   <td>
+   new roulette, created with automatic body
+   </td>
+  </tr>
+
+  <tr>
+   <td>/roulettes/close/:id
+   </td>
+   <td> close roulette </td>
+   <td>-</td>
+  </tr>
 </table>
 ```
