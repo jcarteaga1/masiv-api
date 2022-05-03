@@ -13,10 +13,10 @@ const createBet = async (req, res) => {
 
     const reply = await BetModel.create(body);
     if (!reply) {
-      res.status(500).send({ message: 'Error to create user' });
+      res.status(500).send({ message: 'Error to create bet' });
     }
 
-    res.status(200).json({ message: `User ${body.username} created` });
+    res.status(200).json({ message: `bet created ${body}` });
   } catch (error) {
     res.status(500).send(error.message);
   }
