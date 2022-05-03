@@ -85,5 +85,24 @@ authorization: ""
    <p>
    </td>
   </tr>
+
+  <tr>
+   <td>/users/login
+   </td>
+   <td>-</td>
+   <td>
+   <p>
+   body:
+   <p>
+   <code>{</code>
+   <p>
+   <code>username,</code>
+   <p>
+   <code>password,</code>
+   <p>
+   <code>}</code>
+   <p>
+   </td>
+  </tr>
 </table>
 ```
