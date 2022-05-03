@@ -1,6 +1,8 @@
 /* eslint-disable newline-per-chained-call */
 const Joi = require('joi');
 const { redisSet } = require('../config/db');
+const { RouletteModel } = require('./roulette');
+const { UserModel } = require('./user');
 
 const BetSchema = Joi.object({
   id: Joi.string().guid({
@@ -27,7 +29,15 @@ const BetModel = {
   create: async (body) => {
     const { value, error } = BetSchema.validate(body);
     if (error) throw error;
+    const isOpen = await RouletteModel.isOpen(`roulette-${value.rouletteId}`);
+    if (!isOpen) throw new Error('the roulette is closed');
+    const hasCredits = await UserModel.verifyCredits(
+      `user-${value.userId}`,
+      value.credits,
+    );
+    if (!hasCredits) throw new Error('the user does not have enough credits');
     const reply = await redisSet(value.id, value, 'bet');
+    await UserModel.updateCredits(`user-${value.userId}`, value.credits, 0);
 
     return reply;
   },

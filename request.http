@@ -3,7 +3,7 @@ GET http://localhost:3000/roulettes
 
 ###
 
-GET http://localhost:3000/roulettes/open/2399d8c3-bd31-48d7-965a-af4d7fd8e01f
+GET http://localhost:3000/roulettes/open/1b8d44ba-1871-4147-95db-d6c7aa13558a
 
 ###
 POST http://localhost:3000/roulettes/new

@@ -19,11 +19,11 @@ const RouletteModel = {
     return reply;
   },
   open: async (id) => {
-    const roulette = await redisGet(id);
+    const roulette = await redisGet(`roulette-${id}`);
     if (!roulette) throw new Error('the roulette does not exist');
     roulette.status = 0;
     roulette.updatedAt = new Date();
-    await redisSet(id, roulette);
+    await redisSet(id, roulette, 'roulette');
 
     return roulette;
   },
@@ -32,6 +32,20 @@ const RouletteModel = {
     if (!roulette) throw new Error('the roulette does not exist');
 
     return roulette;
+  },
+  find: async (id) => {
+    const roulette = await redisGet(id);
+    if (!roulette) throw new Error('the roulette does not exist');
+
+    return roulette;
+  },
+  isOpen: async (id) => {
+    const roulette = await redisGet(id);
+    if (!roulette) throw new Error('the roulette does not exist');
+    if (roulette.status === 0) {
+      return true;
+    }
+    return false;
   },
 };
 
