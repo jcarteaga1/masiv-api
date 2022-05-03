@@ -1,8 +1,8 @@
 const Joi = require('joi');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { joiPassword } = require('joi-password');
 const { redisSet, redisGetAll } = require('../config/db');
+const { generateAccessToken } = require('../services/jwt');
 
 const UserSchema = Joi.object({
   id: Joi.string().guid({
@@ -39,7 +39,9 @@ const UserModel = {
     if (bcrypt.compareSync(password, findUser.password)) {
       throw new Error('Incorrect password');
     }
-    const accessToken = jwt.sign({ id: findUser.id }, process.env.JWT_KEY);
+
+    const accessToken = generateAccessToken(findUser.id);
+
     return { ...findUser, token: accessToken };
   },
 };
