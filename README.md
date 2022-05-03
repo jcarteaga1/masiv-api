@@ -162,4 +162,12 @@ authorization: ""
    </td>
   </tr>
 </table>
+
+## Conventions
+
+1. color number 1 is black, 0 is red
+2. status roulette 1 is close, 0 is open
+
+```
+
 ```
