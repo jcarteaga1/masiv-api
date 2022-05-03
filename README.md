@@ -33,12 +33,14 @@
 
 # Create .env file
 
-env:
-
 ## This is parameters required.
 
+```yaml
+env:
 PORT=
 JWT_KET=
+
+```
 
 ## Authenticacion
 
