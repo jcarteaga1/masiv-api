@@ -20,4 +20,17 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser };
+const loginUser = async (req, res) => {
+  try {
+    const reply = await UserModel.login(req.body);
+    if (!reply) {
+      res.status(500).send({ message: 'Error to create user' });
+    }
+
+    res.status(200).json(reply);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+module.exports = { createUser, loginUser };

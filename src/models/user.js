@@ -1,7 +1,8 @@
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { joiPassword } = require('joi-password');
-const { redisSet } = require('../config/db');
+const { redisSet, redisGetAll } = require('../config/db');
 
 const UserSchema = Joi.object({
   id: Joi.string().guid({
@@ -29,6 +30,17 @@ const UserModel = {
     const reply = await redisSet(value.id, value, 'user');
 
     return reply;
+  },
+  login: async (body) => {
+    const { username, password } = body;
+    const allUsers = await redisGetAll('user');
+    const findUser = allUsers.find((user) => user.username === username);
+    if (!findUser) throw new Error('user does not exist');
+    if (bcrypt.compareSync(password, findUser.password)) {
+      throw new Error('Incorrect password');
+    }
+    const accessToken = jwt.sign({ id: findUser.id }, process.env.JWT_KEY);
+    return { ...findUser, token: accessToken };
   },
 };
 

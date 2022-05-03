@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const roulettesRoutes = require('./routes/roulette');
 const UsersRoutes = require('./routes/user');
 
