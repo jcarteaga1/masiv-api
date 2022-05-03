@@ -134,5 +134,30 @@ authorization: ""
    <td> close roulette </td>
    <td>-</td>
   </tr>
+
+  <tr>
+   <td>/bets/new
+   </td>
+   <td>-</td>
+   <td>
+   <p>
+   body:
+   <p>
+   <code>{</code>
+   <p>
+   <code>number,</code>
+   <p>
+   <code>color,</code>
+   <p>
+   <p>
+   <code>credits,</code>
+   <p>
+   <p>
+   <code>rouletteId,</code>
+   <p>
+   <code>}</code>
+   <p>
+   </td>
+  </tr>
 </table>
 ```
