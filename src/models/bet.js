@@ -1,6 +1,8 @@
+/* eslint-disable implicit-arrow-linebreak */
+/* eslint-disable no-return-await */
 /* eslint-disable newline-per-chained-call */
 const Joi = require('joi');
-const { redisSet } = require('../config/db');
+const { redisSet, redisGetAll } = require('../config/db');
 const { RouletteModel } = require('./roulette');
 const { UserModel } = require('./user');
 
@@ -41,6 +43,36 @@ const BetModel = {
     await UserModel.updateCredits(`user-${value.userId}`, value.credits, 0);
 
     return reply;
+  },
+  findAllByRoulette: async (rouletteId) => {
+    const allBets = await redisGetAll('bet');
+    if (!allBets) throw new Error('no bets');
+    const betsByRoulette = allBets.filter(
+      (bet) => bet.rouletteId === rouletteId,
+    );
+    if (!betsByRoulette) throw new Error('no bets');
+
+    return betsByRoulette;
+  },
+  verifyWinners: async (bets, winNumber, winColor) => {
+    const betsWinNumber = bets.filter((bet) => bet.number === winNumber);
+    betsWinNumber.forEach(
+      async (bet) =>
+        await UserModel.updateCredits(
+          `user-${bet.userId}`,
+          Math.floor(bet.credits * 5),
+          1,
+        ),
+    );
+    const betsWinColor = bets.filter((bet) => bet.color === winColor);
+    betsWinColor.forEach(
+      async (bet) =>
+        await UserModel.updateCredits(
+          `user-${bet.userId}`,
+          Math.floor(bet.credits * 1.8),
+          1,
+        ),
+    );
   },
 };
 

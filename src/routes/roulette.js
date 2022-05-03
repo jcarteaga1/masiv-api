@@ -5,9 +5,11 @@ const {
   createRoulettes,
   getRoulettes,
   openRoulettes,
+  closeRoulettes,
 } = require('../controllers/roulette');
 
 router.get('/', getRoulettes);
-router.get('/open/:id', openRoulettes);
+router.post('/open/:id', openRoulettes);
 router.post('/new', createRoulettes);
+router.post('/close/:id', closeRoulettes);
 module.exports = router;

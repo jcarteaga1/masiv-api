@@ -44,4 +44,25 @@ const openRoulettes = async (req, res) => {
   }
 };
 
-module.exports = { createRoulettes, getRoulettes, openRoulettes };
+const closeRoulettes = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { roulette, winNumber } = await RouletteModel.close(id);
+    if (!roulette) {
+      res.status(500).send({ message: 'Error to open roulette' });
+    }
+
+    res.status(200).send({
+      message: `the ruolette ${roulette.id} is closed, win number is ${winNumber}`,
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
+module.exports = {
+  createRoulettes,
+  getRoulettes,
+  openRoulettes,
+  closeRoulettes,
+};

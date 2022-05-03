@@ -1,5 +1,10 @@
 const Joi = require('joi');
 const { redisSet, redisGet, redisGetAll } = require('../config/db');
+const { BetModel } = require('./bet');
+const {
+  getWinningColor,
+  getWinningNumber,
+} = require('../services/winningNumbers');
 
 const RouletteSchema = Joi.object({
   id: Joi.string().guid({
@@ -46,6 +51,19 @@ const RouletteModel = {
       return true;
     }
     return false;
+  },
+  close: async (id) => {
+    const roulette = await redisGet(`roulette-${id}`);
+    if (!roulette) throw new Error('the roulette does not exist');
+    roulette.status = 1;
+    roulette.updatedAt = new Date();
+    await redisSet(id, roulette, 'roulette');
+    const bets = await BetModel.findAllByRoulette(roulette.id);
+    const winNumber = getWinningNumber();
+    const winColor = getWinningColor(winNumber);
+    await BetModel.verifyWinners(bets, winNumber, winColor);
+
+    return { roulette, winNumber };
   },
 };
 
